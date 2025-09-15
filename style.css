@@ -1166,3 +1166,93 @@ body {
     }
 }
 
+
+/* Add this to handle mobile viewport issues */
+.chat-container {
+    height: calc(var(--vh, 1vh) * 90);
+}
+
+@media (max-width: 768px) {
+    .chat-container {
+        height: calc(var(--vh, 1vh) * 100);
+    }
+}
+
+/* Improve touch targets for mobile */
+@media (max-width: 768px) {
+    .input-btn, .send-btn, .emoji-btn, .remove-image {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .emoji-item {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .emoji-category {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Loading animation for better UX */
+.message.loading {
+    opacity: 0.7;
+}
+
+.message.loading::after {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #ccc;
+    border-top: 2px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Better scrolling on mobile */
+.chat-messages {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+/* Improve emoji picker on mobile */
+@media (max-width: 480px) {
+    .emoji-picker {
+        bottom: 80px;
+        left: 10px;
+        right: 10px;
+        width: auto;
+    }
+    
+    .emoji-categories {
+        padding: 8px;
+        gap: 2px;
+    }
+    
+    .emoji-category {
+        min-width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+    
+    .emoji-grid {
+        padding: 8px;
+        gap: 2px;
+    }
+    
+    .emoji-item {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
