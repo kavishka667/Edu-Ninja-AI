@@ -1,7 +1,7 @@
 class GeminiChatbot {
     constructor() {
         // Replace with your actual Gemini API key
-        this.API_KEY = 'YOUR_GEMINI_API_KEY_HERE';
+        this.API_KEY = 'AIzaSyDpOL0HC7pKrD3nStDuR4UetMsTj27WTOo';
         this.API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.API_KEY}`;
         
         this.chatMessages = document.getElementById('chatMessages');
