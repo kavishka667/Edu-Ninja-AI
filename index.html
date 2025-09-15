@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gemini AI Chatbot</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="chat-container">
@@ -49,8 +49,8 @@
 
         <!-- Image Preview -->
         <div class="image-preview" id="imagePreview">
-            <div class="preview-container">
-                <img id="previewImage" src="" alt="Preview">
+            <div class="preview-content">
+                <img id="previewImg" src="" alt="Preview">
                 <button class="remove-image" id="removeImage">
                     <i class="fas fa-times"></i>
                 </button>
@@ -59,6 +59,50 @@
 
         <!-- Chat Input -->
         <div class="chat-input">
+            <div class="input-container">
+                <button class="input-btn" id="imageBtn">
+                    <i class="fas fa-image"></i>
+                </button>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                
+                <div class="text-input-container">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Type your message..." 
+                        rows="1"
+                    ></textarea>
+                    <button class="emoji-btn" id="emojiBtn">
+                        <i class="fas fa-smile"></i>
+                    </button>
+                </div>
+                
+                <button class="send-btn" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Emoji Picker -->
+        <div class="emoji-picker" id="emojiPicker">
+            <div class="emoji-categories">
+                <button class="emoji-category active" data-category="smileys">😀</button>
+                <button class="emoji-category" data-category="people">👋</button>
+                <button class="emoji-category" data-category="nature">🌟</button>
+                <button class="emoji-category" data-category="food">🍕</button>
+                <button class="emoji-category" data-category="activities">⚽</button>
+                <button class="emoji-category" data-category="travel">✈️</button>
+                <button class="emoji-category" data-category="objects">💡</button>
+                <button class="emoji-category" data-category="symbols">❤️</button>
+            </div>
+            <div class="emoji-grid" id="emojiGrid">
+                <!-- Emojis will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
             <div class="input-container">
                 <button class="input-btn" id="imageBtn">
                     <i class="fas fa-image"></i>
