@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="header-content">
+                <div class="bot-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="bot-info">
+                    <h3>Gemini AI</h3>
+                    <span class="status">Online</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    <p>Hello! I'm your AI assistant powered by Gemini. How can I help you today?</p>
+                    <span class="message-time"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="message-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <!-- Image Preview -->
+        <div class="image-preview" id="imagePreview">
+            <div class="preview-container">
+                <img id="previewImage" src="" alt="Preview">
+                <button class="remove-image" id="removeImage">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="chat-input">
+            <div class="input-container">
+                <button class="input-btn" id="imageBtn">
+                    <i class="fas fa-image"></i>
+                </button>
+                <button class="input-btn" id="emojiBtn">
+                    <i class="fas fa-smile"></i>
+                </button>
+                <div class="text-input-container">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Type your message..." 
+                        rows="1"
+                    ></textarea>
+                </div>
+                <button class="send-btn" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            
+            <!-- Emoji Picker -->
+            <div class="emoji-picker" id="emojiPicker">
+                <div class="emoji-categories">
+                    <button class="emoji-category active" data-category="smileys">😀</button>
+                    <button class="emoji-category" data-category="people">👋</button>
+                    <button class="emoji-category" data-category="nature">🌟</button>
+                    <button class="emoji-category" data-category="food">🍕</button>
+                    <button class="emoji-category" data-category="activities">⚽</button>
+                    <button class="emoji-category" data-category="travel">🚗</button>
+                    <button class="emoji-category" data-category="objects">💡</button>
+                    <button class="emoji-category" data-category="symbols">❤️</button>
+                </div>
+                <div class="emoji-grid" id="emojiGrid"></div>
+            </div>
+        </div>
+
+        <!-- Hidden File Input -->
+        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+    </div>
+
+    <!-- API Key Modal -->
+    <div class="modal" id="apiKeyModal">
+        <div class="modal-content">
+            <h3>Enter Your Gemini API Key</h3>
+            <p>To use this chatbot, please enter your Google Gemini API key:</p>
+            <input type="password" id="apiKeyInput" placeholder="Enter API key...">
+            <div class="modal-buttons">
+                <button id="saveApiKey">Save</button>
+                <a href="https://makersuite.google.com/app/apikey" target="_blank">Get API Key</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
