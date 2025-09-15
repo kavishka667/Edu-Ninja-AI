@@ -257,4 +257,341 @@ class GeminiChatbot {
         }
 
         const data = await response.json();
-        return data.candidates[0].content.parts
+                return data.candidates[0].content.parts[0].text;
+    }
+
+    addMessage(content, sender, imageData = null) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'message-avatar';
+        avatarDiv.innerHTML = sender === 'bot' ? '<i class="fas fa-robot"></i>' : '<i class="fas fa-user"></i>';
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'message-content';
+
+        // Add image if present
+        if (imageData) {
+            const img = document.createElement('img');
+            img.src = imageData;
+            img.className = 'message-image';
+            img.alt = 'Uploaded image';
+            contentDiv.appendChild(img);
+        }
+
+        // Add text content
+        if (content) {
+            const textP = document.createElement('p');
+            textP.textContent = content;
+            contentDiv.appendChild(textP);
+        }
+
+        // Add timestamp
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'message-time';
+        timeSpan.textContent = this.getCurrentTime();
+        contentDiv.appendChild(timeSpan);
+
+        messageDiv.appendChild(avatarDiv);
+        messageDiv.appendChild(contentDiv);
+        chatMessages.appendChild(messageDiv);
+
+        // Scroll to bottom
+        this.scrollToBottom();
+    }
+
+    showTypingIndicator() {
+        document.getElementById('typingIndicator').style.display = 'flex';
+        this.scrollToBottom();
+    }
+
+    hideTypingIndicator() {
+        document.getElementById('typingIndicator').style.display = 'none';
+    }
+
+    scrollToBottom() {
+        const chatMessages = document.getElementById('chatMessages');
+        setTimeout(() => {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 100);
+    }
+
+    getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    updateMessageTime() {
+        const timeSpan = document.querySelector('.bot-message .message-time');
+        if (timeSpan) {
+            timeSpan.textContent = this.getCurrentTime();
+        }
+    }
+}
+
+// Enhanced features
+class ChatbotEnhancements {
+    constructor(chatbot) {
+        this.chatbot = chatbot;
+        this.initEnhancements();
+    }
+
+    initEnhancements() {
+        this.addKeyboardShortcuts();
+        this.addDragAndDrop();
+        this.addMessageActions();
+        this.addThemeToggle();
+        this.addChatHistory();
+    }
+
+    addKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + Enter to send message
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                this.chatbot.sendMessage();
+            }
+            
+            // Escape to close emoji picker
+            if (e.key === 'Escape') {
+                document.getElementById('emojiPicker').style.display = 'none';
+            }
+        });
+    }
+
+    addDragAndDrop() {
+        const chatContainer = document.querySelector('.chat-container');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            chatContainer.addEventListener(eventName, this.preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            chatContainer.addEventListener(eventName, this.highlight.bind(this), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            chatContainer.addEventListener(eventName, this.unhighlight.bind(this), false);
+        });
+
+        chatContainer.addEventListener('drop', this.handleDrop.bind(this), false);
+    }
+
+    preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    highlight(e) {
+        e.currentTarget.classList.add('drag-over');
+    }
+
+    unhighlight(e) {
+        e.currentTarget.classList.remove('drag-over');
+    }
+
+    handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+
+        if (files.length > 0) {
+            const file = files[0];
+            if (file.type.startsWith('image/')) {
+                this.chatbot.handleImageUpload(file);
+            }
+        }
+    }
+
+    addMessageActions() {
+        // Add copy functionality to messages
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.message-content')) {
+                const messageContent = e.target.closest('.message-content');
+                if (e.detail === 2) { // Double click
+                    this.copyMessageText(messageContent);
+                }
+            }
+        });
+    }
+
+    copyMessageText(messageElement) {
+        const textElement = messageElement.querySelector('p');
+        if (textElement) {
+            navigator.clipboard.writeText(textElement.textContent).then(() => {
+                this.showToast('Message copied to clipboard');
+            });
+        }
+    }
+
+    showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 300);
+        }, 2000);
+    }
+
+    addThemeToggle() {
+        // Add theme toggle button to header
+        const headerContent = document.querySelector('.header-content');
+        const themeBtn = document.createElement('button');
+        themeBtn.className = 'theme-toggle';
+        themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+        themeBtn.addEventListener('click', this.toggleTheme.bind(this));
+        headerContent.appendChild(themeBtn);
+    }
+
+    toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+        const isDark = document.body.classList.contains('dark-theme');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        
+        const themeBtn = document.querySelector('.theme-toggle i');
+        themeBtn.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    }
+
+    addChatHistory() {
+        // Save chat history to localStorage
+        const originalAddMessage = this.chatbot.addMessage.bind(this.chatbot);
+        this.chatbot.addMessage = (content, sender, imageData) => {
+            originalAddMessage(content, sender, imageData);
+            this.saveChatHistory(content, sender, imageData);
+        };
+
+        // Load chat history on page load
+        this.loadChatHistory();
+    }
+
+    saveChatHistory(content, sender, imageData) {
+        let history = JSON.parse(localStorage.getItem('chat_history') || '[]');
+        history.push({
+            content,
+            sender,
+            imageData: imageData ? 'image' : null, // Don't save actual image data
+            timestamp: new Date().toISOString()
+        });
+
+        // Keep only last 50 messages
+        if (history.length > 50) {
+            history = history.slice(-50);
+        }
+
+        localStorage.setItem('chat_history', JSON.stringify(history));
+    }
+
+    loadChatHistory() {
+        const history = JSON.parse(localStorage.getItem('chat_history') || '[]');
+        const chatMessages = document.getElementById('chatMessages');
+        
+        // Clear existing messages except welcome message
+        const welcomeMessage = chatMessages.querySelector('.message');
+        chatMessages.innerHTML = '';
+        if (welcomeMessage) {
+            chatMessages.appendChild(welcomeMessage);
+        }
+
+        // Load last 10 messages
+        const recentHistory = history.slice(-10);
+        recentHistory.forEach(msg => {
+            if (msg.sender !== 'bot' || msg.content !== "Hello! I'm your AI assistant powered by Gemini. How can I help you today?") {
+                this.chatbot.addMessage(msg.content, msg.sender);
+            }
+        });
+    }
+}
+
+// Voice recognition feature
+class VoiceRecognition {
+    constructor(chatbot) {
+        this.chatbot = chatbot;
+        this.recognition = null;
+        this.isListening = false;
+        this.initVoiceRecognition();
+    }
+
+    initVoiceRecognition() {
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            this.recognition = new SpeechRecognition();
+            
+            this.recognition.continuous = false;
+            this.recognition.interimResults = false;
+            this.recognition.lang = 'en-US';
+
+            this.recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('messageInput').value = transcript;
+                this.stopListening();
+            };
+
+            this.recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                this.stopListening();
+            };
+
+            this.recognition.onend = () => {
+                this.stopListening();
+            };
+
+            this.addVoiceButton();
+        }
+    }
+
+    addVoiceButton() {
+        const inputContainer = document.querySelector('.input-container');
+        const voiceBtn = document.createElement('button');
+        voiceBtn.className = 'input-btn voice-btn';
+        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        voiceBtn.addEventListener('click', this.toggleListening.bind(this));
+        
+        // Insert before emoji button
+        const emojiBtn = document.getElementById('emojiBtn');
+        inputContainer.insertBefore(voiceBtn, emojiBtn);
+    }
+
+    toggleListening() {
+        if (this.isListening) {
+            this.stopListening();
+        } else {
+            this.startListening();
+        }
+    }
+
+    startListening() {
+        if (this.recognition) {
+            this.recognition.start();
+            this.isListening = true;
+            const voiceBtn = document.querySelector('.voice-btn');
+            voiceBtn.classList.add('listening');
+            voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
+        }
+    }
+
+    stopListening() {
+        if (this.recognition) {
+            this.recognition.stop();
+            this.isListening = false;
+            const voiceBtn = document.querySelector('.voice-btn');
+            voiceBtn.classList.remove('listening');
+            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        }
+    }
+}
+
+// Initialize the chatbot when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const chatbot = new GeminiChatbot();
+    const enhancements = new ChatbotEnhancements(chatbot);
+    const voiceRecognition = new VoiceRecognition(chatbot);
+});
