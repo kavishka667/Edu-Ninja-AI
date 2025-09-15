@@ -519,3 +519,200 @@ body {
 .emoji-grid::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
+
+/* Enhanced Features Styles */
+
+/* Drag and Drop */
+.drag-over {
+    border: 2px dashed #667eea !important;
+    background: rgba(102, 126, 234, 0.1) !important;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: auto;
+    transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Dark Theme */
+.dark-theme {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+.dark-theme .chat-container {
+    background: #2c3e50;
+    color: #ecf0f1;
+}
+
+.dark-theme .chat-messages {
+    background: #34495e;
+}
+
+.dark-theme .message-content {
+    background: #3a4a5c;
+    color: #ecf0f1;
+}
+
+.dark-theme .user-message .message-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.dark-theme .input-container {
+    background: #3a4a5c;
+}
+
+.dark-theme #messageInput {
+    color: #ecf0f1;
+}
+
+.dark-theme .emoji-picker {
+    background: #3a4a5c;
+    border-color: #4a5a6c;
+}
+
+.dark-theme .emoji-category:hover,
+.dark-theme .emoji-category.active {
+    background: #4a5a6c;
+}
+
+.dark-theme .emoji-item:hover {
+    background: #4a5a6c;
+}
+
+/* Voice Recognition */
+.voice-btn.listening {
+    background: #dc3545 !important;
+    color: white !important;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Toast Notifications */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Message Actions */
+.message-content:hover {
+    cursor: pointer;
+}
+
+.message-content::after {
+    content: "Double-click to copy";
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    font-size: 0.7rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+    color: #6c757d;
+}
+
+.message-content:hover::after {
+    opacity: 1;
+}
+
+/* Loading States */
+.send-btn.loading {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 480px) {
+    .voice-btn {
+        order: -1;
+    }
+    
+    .theme-toggle {
+        padding: 0.4rem;
+        font-size: 0.9rem;
+    }
+    
+    .toast {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        transform: translateY(100px);
+    }
+    
+    .toast.show {
+        transform: translateY(0);
+    }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus States */
+.input-btn:focus,
+.send-btn:focus,
+.emoji-category:focus,
+.emoji-item:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .chat-container {
+        border: 2px solid #000;
+    }
+    
+    .message-content {
+        border: 1px solid #000;
+    }
+}
+
