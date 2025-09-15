@@ -5,108 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gemini AI Chatbot</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
 </head>
 <body>
-    <div class="chat-container">
+    <div class="container">
         <!-- Header -->
-        <div class="chat-header">
+        <header class="header">
             <div class="header-content">
-                <div class="bot-avatar">
-                    <i class="fas fa-robot"></i>
+                <div class="logo">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                    <h1>Gemini AI</h1>
                 </div>
-                <div class="bot-info">
-                    <h3>Gemini AI Assistant</h3>
-                    <span class="status">Online</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Chat Messages -->
-        <div class="chat-messages" id="chatMessages">
-            <div class="message bot-message">
-                <div class="message-avatar">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <div class="message-content">
-                    <p>Hello! I'm your AI assistant powered by Gemini. How can I help you today?</p>
-                    <span class="message-time">Just now</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Typing Indicator -->
-        <div class="typing-indicator" id="typingIndicator" style="display: none;">
-            <div class="message-avatar">
-                <i class="fas fa-robot"></i>
-            </div>
-            <div class="typing-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-
-        <!-- Image Preview -->
-        <div class="image-preview" id="imagePreview" style="display: none;">
-            <div class="preview-container">
-                <img id="previewImage" src="" alt="Preview">
-                <button class="remove-image" id="removeImage">
-                    <i class="fas fa-times"></i>
+                <button class="theme-toggle" id="themeToggle">
+                    <span class="material-symbols-outlined">dark_mode</span>
                 </button>
             </div>
-        </div>
+        </header>
 
-        <!-- Emoji Picker -->
-        <div class="emoji-picker" id="emojiPicker" style="display: none;">
-            <div class="emoji-grid">
-                <span class="emoji" data-emoji="😀">😀</span>
-                <span class="emoji" data-emoji="😂">😂</span>
-                <span class="emoji" data-emoji="🥰">🥰</span>
-                <span class="emoji" data-emoji="😍">😍</span>
-                <span class="emoji" data-emoji="🤔">🤔</span>
-                <span class="emoji" data-emoji="😎">😎</span>
-                <span class="emoji" data-emoji="😊">😊</span>
-                <span class="emoji" data-emoji="🙂">🙂</span>
-                <span class="emoji" data-emoji="😉">😉</span>
-                <span class="emoji" data-emoji="😋">😋</span>
-                <span class="emoji" data-emoji="😌">😌</span>
-                <span class="emoji" data-emoji="😏">😏</span>
-                <span class="emoji" data-emoji="🥳">🥳</span>
-                <span class="emoji" data-emoji="😇">😇</span>
-                <span class="emoji" data-emoji="🤗">🤗</span>
-                <span class="emoji" data-emoji="🤭">🤭</span>
-                <span class="emoji" data-emoji="👍">👍</span>
-                <span class="emoji" data-emoji="👏">👏</span>
-                <span class="emoji" data-emoji="🙏">🙏</span>
-                <span class="emoji" data-emoji="❤️">❤️</span>
-                <span class="emoji" data-emoji="💯">💯</span>
-                <span class="emoji" data-emoji="🔥">🔥</span>
-                <span class="emoji" data-emoji="✨">✨</span>
-                <span class="emoji" data-emoji="🎉">🎉</span>
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <div class="message-avatar">
+                        <span class="material-symbols-outlined">smart_toy</span>
+                    </div>
+                    <div class="message-content">
+                        <p>Hello! I'm your AI assistant powered by Gemini. How can I help you today?</p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Input Area -->
-        <div class="chat-input">
+        <div class="input-area">
             <div class="input-container">
-                <button class="input-btn" id="imageBtn" title="Upload Image">
-                    <i class="fas fa-image"></i>
-                </button>
-                <button class="input-btn" id="emojiBtn" title="Emoji">
-                    <i class="fas fa-smile"></i>
-                </button>
-                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                <div class="file-upload-wrapper">
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                    <button class="file-upload-btn" id="fileUploadBtn">
+                        <span class="material-symbols-outlined">attach_file</span>
+                    </button>
+                </div>
+                
                 <div class="message-input-wrapper">
                     <textarea 
                         id="messageInput" 
-                        placeholder="Type your message..." 
+                        placeholder="Type your message here..." 
                         rows="1"
                     ></textarea>
+                    
+                    <button class="emoji-btn" id="emojiBtn">
+                        <span class="material-symbols-outlined">sentiment_satisfied</span>
+                    </button>
                 </div>
-                <button class="send-btn" id="sendBtn" title="Send Message">
-                    <i class="fas fa-paper-plane"></i>
+                
+                <button class="send-btn" id="sendBtn">
+                    <span class="material-symbols-outlined">send</span>
                 </button>
+            </div>
+
+            <!-- Image Preview -->
+            <div class="image-preview" id="imagePreview" style="display: none;">
+                <img id="previewImg" src="" alt="Preview">
+                <button class="remove-image" id="removeImage">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <!-- Emoji Picker -->
+            <div class="emoji-picker" id="emojiPicker" style="display: none;">
+                <div class="emoji-grid">
+                    <span class="emoji">😀</span>
+                    <span class="emoji">😂</span>
+                    <span class="emoji">😍</span>
+                    <span class="emoji">🤔</span>
+                    <span class="emoji">😊</span>
+                    <span class="emoji">😎</span>
+                    <span class="emoji">😢</span>
+                    <span class="emoji">😡</span>
+                    <span class="emoji">👍</span>
+                    <span class="emoji">👎</span>
+                    <span class="emoji">❤️</span>
+                    <span class="emoji">💯</span>
+                    <span class="emoji">🔥</span>
+                    <span class="emoji">⭐</span>
+                    <span class="emoji">🎉</span>
+                    <span class="emoji">💡</span>
+                    <span class="emoji">🚀</span>
+                    <span class="emoji">💻</span>
+                    <span class="emoji">📱</span>
+                    <span class="emoji">🌟</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div class="loading" id="loading" style="display: none;">
+            <div class="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </div>
